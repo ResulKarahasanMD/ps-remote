@@ -1,0 +1,4 @@
+module CChiaki [system] {
+    header "shim.h"
+    export *
+}

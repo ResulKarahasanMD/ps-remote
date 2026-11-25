@@ -1,0 +1,11 @@
+# Build outputs
+/build/
+/.build/
+/.swiftpm/
+*.xcodeproj/
+DerivedData/
+
+# Local test fixtures (recorded video can exceed 5 MB)
+/Tests/**/Fixtures/*.h265
+
+.DS_Store
