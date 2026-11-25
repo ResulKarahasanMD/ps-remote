@@ -13,7 +13,7 @@ import Testing
                                        state: .ready, systemVersion: "14000039"))
     }
 
-    @Test func summaryLineIsTabSeparatedWithTurkishState() {
+    @Test func summaryLineIsTabSeparatedWithStateLabel() {
         let console = ConsoleDiscovery.consoles(from: [.fixture()])[0]
         #expect(console.summaryLine == "RED PS5-Pro\t192.0.2.16\tstandby\t50AABBCCDDEE")
     }

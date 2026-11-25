@@ -39,7 +39,7 @@ import Testing
                 == .other("Server shutting down"))
     }
 
-    @Test func userMessagesAreTurkishAndActionable() {
+    @Test func userMessagesAreActionable() {
         #expect(QuitReason.remoteShutdown.userMessage == "The PS5 entered rest mode.")
         #expect(QuitReason.remoteInUse.userMessage == "Another Remote Play session is open (e.g. the official app or chiaki-ng).")
         #expect(QuitReason.unreachable.userMessage == "Could not reach the console. Try waking it: psremote-cli wake")
