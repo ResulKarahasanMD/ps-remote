@@ -22,11 +22,11 @@ public enum QuitReason: Sendable, Equatable {
 
     public var userMessage: String {
         switch self {
-        case .stopped: "Oturum kapatıldı."
-        case .remoteShutdown: "PS5 dinlenmeye geçti."
-        case .remoteInUse: "Başka bir Remote Play oturumu açık (ör. resmî uygulama ya da chiaki-ng)."
-        case .unreachable: "Konsola ulaşılamadı. Uyandırmayı dene: psremote-cli wake"
-        case .other(let text): "Oturum bitti: \(text)"
+        case .stopped: "Session closed."
+        case .remoteShutdown: "The PS5 entered rest mode."
+        case .remoteInUse: "Another Remote Play session is open (e.g. the official app or chiaki-ng)."
+        case .unreachable: "Could not reach the console. Try waking it: psremote-cli wake"
+        case .other(let text): "Session ended: \(text)"
         }
     }
 }

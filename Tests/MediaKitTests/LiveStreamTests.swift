@@ -25,7 +25,7 @@ struct LiveStreamTests {
         let console = try #require(try ChiakiNGImport.consoles(fromPreferences: prefs, addresses: addresses).first)
         let accountID = try #require(try ChiakiNGImport.accountID(fromPreferences: prefs))
         #expect(discovered.first { ConsoleSelector.normalizedID($0.id) == console.hostID }?.state == .ready,
-                "PS5 açık olmalı (psremote-cli wake)")
+                "The PS5 must be on (psremote-cli wake)")
 
         let counter = LiveCounter()
         let decoder = VideoDecoder(onFrame: counter.add)
@@ -41,10 +41,10 @@ struct LiveStreamTests {
         player.stop()
 
         let audio = player.stats
-        #expect(audio.packets >= 800, "10 sn'de ~1000 ses paketi (10 ms'lik) beklenir; gelen: \(audio.packets)")
+        #expect(audio.packets >= 800, "Expected ~1000 audio packets (10 ms each) in 10 s; got: \(audio.packets)")
         #expect(audio.decodeFailures == 0)
 
-        #expect(counter.decoded >= 300, "10 sn'de en az 300 kare (30 fps) çözülmeli; çözülen: \(counter.decoded)")
+        #expect(counter.decoded >= 300, "At least 300 frames (30 fps) must be decoded in 10 s; decoded: \(counter.decoded)")
         #expect(decoder.dimensions?.width == 1920)
         #expect(decoder.dimensions?.height == 1080)
     }

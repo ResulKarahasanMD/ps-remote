@@ -14,12 +14,12 @@ enum ImportChiakiCommand {
         let store = KeychainCredentialStore()
         for console in consoles {
             try store.save(console)
-            let address = console.lastKnownAddress.isEmpty ? "adres bilinmiyor (keşifte görünmedi)" : console.lastKnownAddress
-            print("Aktarıldı: \(console.nickname) (\(console.hostID)) @ \(address)")
+            let address = console.lastKnownAddress.isEmpty ? "address unknown (not seen during discovery)" : console.lastKnownAddress
+            print("Imported: \(console.nickname) (\(console.hostID)) @ \(address)")
         }
         if let accountID = try ChiakiNGImport.accountID(fromPreferences: prefs) {
             try store.saveAccountID(accountID)
-            print("PSN Account-ID de aktarıldı.")
+            print("PSN Account-ID imported too.")
         }
     }
 }

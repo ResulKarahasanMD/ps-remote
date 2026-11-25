@@ -108,7 +108,7 @@ private func registCallback(event: UnsafeMutablePointer<ChiakiRegistEvent>?, use
         if let host = event.pointee.registered_host {
             registration.resume(.success(RegisteredConsole(cHost: host.pointee, address: registration.host)))
         } else {
-            registration.resume(.failure(RegistrationError.network("Kayıt başarılı ama konsol verisi boş")))
+            registration.resume(.failure(RegistrationError.network("Registration succeeded but the console data is empty")))
         }
     case CHIAKI_REGIST_EVENT_TYPE_FINISHED_CANCELED:
         registration.resume(.failure(RegistrationError.canceled))

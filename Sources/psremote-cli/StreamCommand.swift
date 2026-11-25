@@ -44,7 +44,7 @@ enum StreamCommand {
         let app = NSApplication.shared
         app.setActivationPolicy(.regular)
         Task { @MainActor in
-            do { try await start(arguments: arguments, app: app) } catch { fail("Hata: \(error)") }
+            do { try await start(arguments: arguments, app: app) } catch { fail("Error: \(error)") }
         }
         app.run()
         exit(0)
@@ -54,8 +54,8 @@ enum StreamCommand {
     private static func start(arguments: [String], app: NSApplication) async throws {
         let store = KeychainCredentialStore()
         let registered = try store.all()
-        guard !registered.isEmpty else { fail("Kayıtlı konsol yok. Önce: psremote-cli import-chiaki", code: 2) }
-        guard let accountID = try store.loadAccountID() else { fail("PSN Account-ID yok. Önce: psremote-cli import-chiaki", code: 2) }
+        guard !registered.isEmpty else { fail("No registered consoles. Run first: psremote-cli import-chiaki", code: 2) }
+        guard let accountID = try store.loadAccountID() else { fail("No PSN Account-ID. Run first: psremote-cli import-chiaki", code: 2) }
         let chosen = try ConsoleSelector.select(arguments.first, from: registered.map {
             Console(id: $0.hostID, name: $0.nickname, address: $0.lastKnownAddress, state: .unknown, systemVersion: "")
         })
@@ -66,9 +66,9 @@ enum StreamCommand {
         var discovered = try await discoverSnapshot(backend: backend, seconds: 3)
         if discovered.first(where: { ConsoleSelector.normalizedID($0.id) == console.hostID })?.state != .ready {
             _ = try ConsoleWaker(backend: backend).wake(console, discovered: discovered)
-            print("PS5 uyandırılıyor…")
+            print("Waking the PS5…")
             guard try await waitUntilReady(backend: backend, hostID: console.hostID, timeout: .seconds(30)) else {
-                fail("PS5 30 sn içinde hazır olmadı.", code: 3)
+                fail("The PS5 was not ready within 30 s.", code: 3)
             }
             discovered = try await discoverSnapshot(backend: backend, seconds: 2)
         }
@@ -106,23 +106,23 @@ enum StreamCommand {
             player.stop()
             let summary = log.finish(quitReason: "\(reason)")
             print(reason.userMessage)
-            print(String(format: "Özet: %.1f sn, %d kare, %d çözülemeyen, %d kayıp, çözme p95 %.2f ms",
+            print(String(format: "Summary: %.1f s, %d frames, %d undecodable, %d lost, decode p95 %.2f ms",
                          summary.durationSeconds, summary.frames, summary.decodeFailures,
                          summary.framesLostTotal, summary.decodeMillisecondsP95))
-            print("Ses: \(summary.audioPackets) paket, \(summary.audioConcealed) gizlenen kayıp, "
-                + "\(summary.audioUnderruns) düşme, \(summary.audioOverflows) taşma, "
-                + String(format: "en çok %.0f ms tampon", summary.audioBufferedMillisecondsMax))
-            print("Günlük: \(log.url.path)")
+            print("Audio: \(summary.audioPackets) packets, \(summary.audioConcealed) concealed losses, "
+                + "\(summary.audioUnderruns) underruns, \(summary.audioOverflows) overflows, "
+                + String(format: "max %.0f ms buffered", summary.audioBufferedMillisecondsMax))
+            print("Log: \(log.url.path)")
             app.terminate(nil)
         }
 
         mapper.onControllerChange = { name in
             log.record(event: name == nil ? "controller_disconnected" : "controller_connected")
-            print(name.map { "Kumanda: \($0)" } ?? "Kumanda ayrıldı; klavye kullanılabilir.")
+            print(name.map { "Controller: \($0)" } ?? "Controller disconnected; the keyboard can be used.")
         }
         mapper.start()
         if mapper.controllerName == nil {
-            print("Kumanda yok. Klavye: WASD sol çubuk, oklar yön tuşları, Enter çarpı, Esc daire, Tab Options.")
+            print("No controller. Keyboard: WASD left stick, arrow keys D-pad, Enter cross, Esc circle, Tab Options.")
         }
         // Mapped keys go to the console instead of the window (no system beep); Cmd shortcuts stay with the app.
         let keyMonitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown, .keyUp, .flagsChanged]) { event in
@@ -155,7 +155,7 @@ enum StreamCommand {
         decoderFailed.onFailure = { error in
             Task { @MainActor in
                 log.record(event: "decoder_setup_failed")
-                await finish(.other("Donanım HEVC çözücüsü açılamadı (\(error))"))
+                await finish(.other("Could not open the hardware HEVC decoder (\(error))"))
             }
         }
         let closeObserver = NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification, object: window, queue: .main) { _ in
@@ -167,10 +167,10 @@ enum StreamCommand {
                 switch event {
                 case .connected:
                     log.record(event: "connected")
-                    print("Bağlandı.")
+                    print("Connected.")
                 case .loginPINRequested:
                     log.record(event: "login_pin_requested")
-                    print("PS5 giriş PIN'i istiyor (M3'te desteklenmiyor).")
+                    print("The PS5 is asking for a login PIN (not supported in M3).")
                 case .quit(let reason):
                     log.record(event: "quit")
                     await finish(reason)

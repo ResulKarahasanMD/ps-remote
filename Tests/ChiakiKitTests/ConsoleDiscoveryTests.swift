@@ -15,7 +15,7 @@ import Testing
 
     @Test func summaryLineIsTabSeparatedWithTurkishState() {
         let console = ConsoleDiscovery.consoles(from: [.fixture()])[0]
-        #expect(console.summaryLine == "RED PS5-Pro\t192.0.2.16\tdinlenme\t50AABBCCDDEE")
+        #expect(console.summaryLine == "RED PS5-Pro\t192.0.2.16\tstandby\t50AABBCCDDEE")
     }
 
     @Test func streamYieldsWhenBackendEmits() async throws {

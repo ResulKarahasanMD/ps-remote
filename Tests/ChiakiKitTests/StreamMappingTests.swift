@@ -40,11 +40,11 @@ import Testing
     }
 
     @Test func userMessagesAreTurkishAndActionable() {
-        #expect(QuitReason.remoteShutdown.userMessage == "PS5 dinlenmeye geçti.")
-        #expect(QuitReason.remoteInUse.userMessage == "Başka bir Remote Play oturumu açık (ör. resmî uygulama ya da chiaki-ng).")
-        #expect(QuitReason.unreachable.userMessage == "Konsola ulaşılamadı. Uyandırmayı dene: psremote-cli wake")
-        #expect(QuitReason.stopped.userMessage == "Oturum kapatıldı.")
-        #expect(QuitReason.other("x").userMessage == "Oturum bitti: x")
+        #expect(QuitReason.remoteShutdown.userMessage == "The PS5 entered rest mode.")
+        #expect(QuitReason.remoteInUse.userMessage == "Another Remote Play session is open (e.g. the official app or chiaki-ng).")
+        #expect(QuitReason.unreachable.userMessage == "Could not reach the console. Try waking it: psremote-cli wake")
+        #expect(QuitReason.stopped.userMessage == "Session closed.")
+        #expect(QuitReason.other("x").userMessage == "Session ended: x")
     }
 
     @Test func controllerButtonsUseLibchiakiBits() {

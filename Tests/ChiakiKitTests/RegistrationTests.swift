@@ -31,7 +31,7 @@ import Testing
             "Regist connect failed: tried all addresses",
         ])
         #expect(error == .network("Regist connect failed: tried all addresses"))
-        #expect(RegistrationFailureClassifier.classify([]) == .network("Bilinmeyen kayıt hatası"))
+        #expect(RegistrationFailureClassifier.classify([]) == .network("Unknown registration error"))
     }
 
     @Test func registrationValidatesPINBeforeContactingTheConsole() async {

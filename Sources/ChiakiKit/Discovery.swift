@@ -42,9 +42,9 @@ public struct Console: Sendable, Equatable, Identifiable {
 
     public var summaryLine: String {
         let stateText = switch state {
-        case .ready: "hazır"
-        case .standby: "dinlenme"
-        case .unknown: "bilinmiyor"
+        case .ready: "ready"
+        case .standby: "standby"
+        case .unknown: "unknown"
         }
         return [name, address, stateText, id].joined(separator: "\t")
     }

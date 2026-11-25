@@ -4,7 +4,7 @@ import Foundation
 enum RegisterCommand {
     static func run(arguments: [String]) async throws {
         guard arguments.count == 2 else {
-            fail("Kullanım: psremote-cli register \"<konsol adı|host id|ip>\" <8 haneli PIN>", code: 64)
+            fail("Usage: psremote-cli register \"<console name|host id|ip>\" <8-digit PIN>", code: 64)
         }
         let backend = try LiveChiakiBackend(logSink: stderrLogSink())
         let address: String
@@ -17,7 +17,7 @@ enum RegisterCommand {
         do {
             let console = try await ConsoleRegistration(backend: backend, store: KeychainCredentialStore())
                 .register(address: address, pin: arguments[1])
-            print("Kaydedildi: \(console.nickname) (\(console.hostID)) @ \(console.lastKnownAddress)")
+            print("Registered: \(console.nickname) (\(console.hostID)) @ \(console.lastKnownAddress)")
         } catch let error as RegistrationError {
             fail(error.localizedDescription)
         }

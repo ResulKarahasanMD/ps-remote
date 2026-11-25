@@ -26,15 +26,15 @@ extension RegistrationError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .invalidPIN:
-            "PIN 8 haneli olmalı (PS5: Ayarlar → Sistem → Uzaktan Oynama → Cihaz Bağla)."
+            "The PIN must be 8 digits (PS5: Settings → System → Remote Play → Link Device)."
         case .missingAccountID:
-            "PSN Account-ID kayıtlı değil. Önce: psremote-cli set-account <base64>"
+            "No PSN Account-ID is saved. Run first: psremote-cli set-account <base64>"
         case .rejected(let reason):
-            "PS5 kaydı reddetti\(reason.map { " (\($0))" } ?? ""). PIN'in süresi dolmuş ya da yanlış olabilir; PS5'te yeni PIN al."
+            "The PS5 rejected the registration\(reason.map { " (\($0))" } ?? ""). The PIN may have expired or be wrong; get a new PIN on the PS5."
         case .network(let line):
-            "PS5'e ulaşılamadı: \(line). PS5 açık ve 'Cihaz Bağla' ekranında mı?"
+            "Could not reach the PS5: \(line). Is the PS5 on and showing the 'Link Device' screen?"
         case .canceled:
-            "Kayıt iptal edildi."
+            "Registration canceled."
         }
     }
 }
@@ -45,7 +45,7 @@ enum RegistrationFailureClassifier {
         if errorLines.contains(where: { $0.contains("Regist received HTTP code") }) {
             return .rejected(reason: errorLines.lazy.compactMap(reason(from:)).first)
         }
-        return .network(errorLines.last ?? "Bilinmeyen kayıt hatası")
+        return .network(errorLines.last ?? "Unknown registration error")
     }
 
     /// "Reported Application Reason: 0x80108b10 (Some Reason)" → "Some Reason"

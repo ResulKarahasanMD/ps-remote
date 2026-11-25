@@ -18,8 +18,8 @@ for pkg in opus json-c miniupnpc libevent openssl@3; do
   brew list --versions "$pkg" >/dev/null 2>&1 || missing="$missing $pkg"
 done
 if [ -n "$missing" ]; then
-  echo "Eksik bağımlılıklar:$missing" >&2
-  echo "Kurmak için: brew install$missing" >&2
+  echo "Missing dependencies:$missing" >&2
+  echo "To install them: brew install$missing" >&2
   exit 1
 fi
 
@@ -81,5 +81,5 @@ cmake --build "$OUT" --target chiaki-lib
   cmake --version | head -1
 } > "$OUT/VERSIONS.txt"
 
-echo "libchiaki hazır: $OUT"
+echo "libchiaki ready: $OUT"
 find "$OUT" -name '*.a' -not -path '*/CMakeFiles/*' | sed "s|$ROOT/||" | sort
