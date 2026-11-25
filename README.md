@@ -20,14 +20,16 @@ macOS on Apple Silicon, Xcode (Swift 6 toolchain), Homebrew with `cmake ninja pk
 
 ## CLI
 
-    swift run psremote-cli discover
+    swift run psremote-cli discover [seconds]
     swift run psremote-cli set-account <PSN Account-ID, base64>
     swift run psremote-cli import-chiaki     # reuse chiaki-ng's existing registration
     swift run psremote-cli register "<console name|host id|ip>" <8-digit PIN>
     swift run psremote-cli list
-    swift run psremote-cli wake "<console name|host id>"
+    swift run psremote-cli wake ["<console name|host id>"]
     swift run psremote-cli forget <host id>
-    swift run psremote-cli stream "<console name|host id>" [seconds]
+    swift run psremote-cli stream ["<console name|host id>"] [seconds]
+
+`wake` and `stream` can omit the console when exactly one console is registered.
 
 `stream` plays the console's audio and forwards a connected DualSense (or DualShock 4). Keyboard
 fallback: WASD left stick, arrow keys D-pad, Return cross, Escape circle, Tab Options.

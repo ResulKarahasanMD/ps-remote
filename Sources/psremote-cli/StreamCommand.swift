@@ -122,7 +122,7 @@ enum StreamCommand {
         }
         mapper.start()
         if mapper.controllerName == nil {
-            print("No controller. Keyboard: WASD left stick, arrow keys D-pad, Enter cross, Esc circle, Tab Options.")
+            print("No controller. Keyboard: WASD left stick, arrow keys D-pad, Return cross, Escape circle, Tab Options.")
         }
         // Mapped keys go to the console instead of the window (no system beep); Cmd shortcuts stay with the app.
         let keyMonitor = NSEvent.addLocalMonitorForEvents(matching: [.keyDown, .keyUp, .flagsChanged]) { event in

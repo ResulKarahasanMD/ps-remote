@@ -12,7 +12,7 @@ struct PSRemoteCLI {
       forget <host id>                  Deletes a registered console from the Keychain
       wake ["<console>"]                Wakes a registered PS5 and waits until it is 'ready' (30 s)
       stream ["<console>"] [seconds]    Opens video and audio in a window; play with a DualSense or the keyboard
-                                        (WASD, arrows, Enter, Esc, Tab). Log: ~/Library/Logs/PSRemote
+                                        (WASD, arrows, Return, Escape, Tab). Log: ~/Library/Logs/PSRemote
     """
 
     /// Synchronous entry point: `stream` needs AppKit's run loop on the plain main thread (running it
